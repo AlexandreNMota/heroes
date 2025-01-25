@@ -2,9 +2,10 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../../config/database";
 import { BaseEntity } from "../../entities/base.entity";
 import { HeroAttributes, HeroCreationAttributes } from "../../entities/hero.entity";
+import { v4 as uuidv4 } from "uuid";
 
 export class Hero extends BaseEntity<HeroAttributes, HeroCreationAttributes> implements Model<HeroAttributes, HeroCreationAttributes> {
-    public id?: number;
+    public id?: string;
     public name!: string;
     public nickname!: string;
     public date_of_birth!: Date;
@@ -19,8 +20,8 @@ export class Hero extends BaseEntity<HeroAttributes, HeroCreationAttributes> imp
 Hero.init(
     {
         id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
         name: {

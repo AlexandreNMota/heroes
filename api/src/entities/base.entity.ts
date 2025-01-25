@@ -1,7 +1,7 @@
 import { Model, Optional } from "sequelize";
 
 export interface BaseAttributes {
-    id: number;
+    id: string;
     created_at?: Date;
     updated_at?: Date;
     is_active: boolean;

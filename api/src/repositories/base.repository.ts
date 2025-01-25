@@ -20,7 +20,7 @@ import {
       return this.model.findAll(options);
     }
   
-    async findById(id: number, options?: FindOptions): Promise<T | null> {
+    async findById(id: string, options?: FindOptions): Promise<T | null> {
       return this.model.findByPk(id, options);
     }
   

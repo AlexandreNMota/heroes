@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Hero } from "../../models";
 import { HeroService } from "../../services/hero/hero.service";
 
 class HeroController {
@@ -32,24 +31,20 @@ class HeroController {
     update = async (req : Request, res: Response) => {
         try {
             const { id } = req.params;
-
-            if(!Number(id)){
-                return res.status(400).json({ message: "Dados inválidos" });
-            }
-
+            console.log(id);
             const options = {
                 where: {
                     id: id
                 }
             };
-            
+
             const updated_records = await this.heroService.update(req.body, options);
 
             if (updated_records === 0) {
                 return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
             }
 
-            const updated_hero = await this.heroService.findById(Number(id));
+            const updated_hero = await this.heroService.findById(id);
             return res.status(200).json(updated_hero);
         } catch (error) {
             console.error(error);
@@ -60,9 +55,6 @@ class HeroController {
     delete = async (req: Request, res: Response) =>{
         try {
             const { id } = req.params;
-            if(!Number(id)){
-                return res.status(400).json({ message: "Dados inválidos" });
-            }
             const options = {
                 where: {
                     id: id
