@@ -31,12 +31,20 @@ class HeroController {
     update = async (req : Request, res: Response) => {
         try {
             const { id } = req.params;
-            console.log(id);
+
+            const hero = await this.heroService.findById(id);
+
+
+            if (!hero) {
+                return res.status(404).json({ message: "Herói não encontrado." });
+            }
+
             const options = {
                 where: {
                     id: id
                 }
             };
+            
 
             const updated_records = await this.heroService.update(req.body, options);
 
@@ -60,12 +68,15 @@ class HeroController {
                     id: id
                 }
             };
-            const deleted_records = await this.heroService.delete(options);
+            const deleted_records = await this.heroService.update(
+                { is_active : false},
+                options
+            );
 
             if (deleted_records === 0) {
                 return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
             }
-            return res.status(204).json("Registro deletado");
+            return res.status(200).json("Registro inativo");
 
         } catch (error){
             console.error(error);
