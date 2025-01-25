@@ -12,4 +12,12 @@ const sequelize = new Sequelize(
     }
 );
 
+sequelize.authenticate()
+  .then(() => {
+    console.log('Conexão estabelecida com sucesso.');
+  })
+  .catch((error) => {
+    console.error('Não foi possível se conectar ao banco de dados:', error);
+  });
+
 export default sequelize;

@@ -1,0 +1,4 @@
+{
+  "config": "./src/config/database.ts",
+  "models-path": "./src/models"
+}

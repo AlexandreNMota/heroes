@@ -1,6 +1,6 @@
 import { Model, Optional } from "sequelize";
 
-interface BaseAttributes {
+export interface BaseAttributes {
     id: number;
     created_at?: Date;
     updated_at?: Date;
