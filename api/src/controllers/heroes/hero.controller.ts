@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { HeroService } from "../../services/hero/hero.service";
+import { Op } from "sequelize";
 
 class HeroController {
     private heroService: HeroService;
@@ -15,12 +16,24 @@ class HeroController {
             const limit = 10;
             const offset = (page - 1) * limit;
 
+            const whereConditions: any = {};
+
+            const search = req.query.search as string || '';
+
+            if (search) {
+                whereConditions[Op.or] = [
+                    { name: { [Op.like]: `%${search.toLowerCase()}%` } },
+                    { nickname: { [Op.like]: `%${search.toLowerCase()}%` } },
+                ];
+            }
+
             const heroes = await this.heroService.findAll({
+                where: whereConditions,
                 order: [['created_at', 'DESC']],
                 limit: limit,
                 offset: offset
             });
-            
+
             return res.status(200).json(heroes);
         } catch (error) {
             console.error(error);
