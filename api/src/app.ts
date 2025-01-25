@@ -1,11 +1,11 @@
 import express from "express";
-import { Hero } from "./models";
+import heroRoutes from "./routes/hero/hero.routes";
+
 
 const app = express();
 
 
-app.get('/', async (req, res) => {
-  const heroes = await Hero.findAll();
-  res.json(heroes);
-  });
+app.use("/heroes",heroRoutes);
+
+
 export default app;
