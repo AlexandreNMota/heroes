@@ -1,7 +1,8 @@
-import { Op } from "sequelize";
+import { Op, UpdateOptions } from "sequelize";
 import { Hero } from "../../models";
 import { HeroRepository } from "../../repositories/hero/hero.repository";
 import { BaseService } from "../base.service";
+import { HeroAttributes } from "../../entities/hero.entity";
 
 export class HeroService extends BaseService<Hero> {
     private static heroRepositoryInstance: HeroRepository;
@@ -47,6 +48,32 @@ export class HeroService extends BaseService<Hero> {
             return heroes;
         } catch (error){
             console.error("Erro no serviço ao buscar heróis:", error);
+            throw new Error('ServiceError');
+        }
+    }
+
+    updateHero = async ( payload:Partial<HeroAttributes> , options: UpdateOptions, id:string):Promise<Hero> =>{
+        try{
+            const hero = await this.repository.findById(id);
+            if (!hero) {
+                throw new Error("Herói não encontrado.");
+            }
+            
+            const updated_records = await this.repository.update(payload, options);
+            if (updated_records === 0) {
+                throw new Error("Nenhum herói encontrado ou alterações não feitas.");
+            }
+
+            const updated_hero = await this.repository.findById(id);
+
+            if(!updated_hero){
+                throw new Error("Herói atualizado mas não encontrado após atualização.");
+            }
+
+            return updated_hero;
+
+        } catch(error){
+            console.error("Erro no serviço de atualização de herói:", error);
             throw new Error('ServiceError');
         }
     }

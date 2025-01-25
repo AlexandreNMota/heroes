@@ -38,31 +38,7 @@ class HeroController {
         try {
             const { id } = req.params;
 
-            const hero = await this.heroService.findById(id);
-
-
-            if (!hero) {
-                return res.status(404).json({ message: "Herói não encontrado." });
-            }
-
-            const options = {
-                where: {
-                    id: id
-                }
-            };
-            
-
-            const updated_records = await this.heroService.update(req.body, options);
-
-            if (updated_records === 0) {
-                return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
-            }
-
-            const updated_hero = await this.heroService.findById(id);
-
-            if(!updated_hero){
-                return res.status(404).json({ message: "Herói atualizado mas não encontrado." });
-            }
+            const updated_hero = await this.heroService.updateHero(req.body,{ where: { id: id } }, id);
             
             return res.status(200).json(updated_hero);
         } catch (error) {
@@ -74,20 +50,9 @@ class HeroController {
     delete = async (req: Request, res: Response) =>{
         try {
             const { id } = req.params;
-            const options = {
-                where: {
-                    id: id
-                }
-            };
-            const deleted_records = await this.heroService.update(
-                { is_active : false},
-                options
-            );
-
-            if (deleted_records === 0) {
-                return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
-            }
-            return res.status(200).json("Registro inativado");
+            const updated_hero = await this.heroService.updateHero({"is_active":false},{ where: { id: id } }, id);
+            
+            return res.status(200).json(updated_hero);
 
         } catch (error){
             console.error(error);
