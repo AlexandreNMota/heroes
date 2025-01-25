@@ -22,12 +22,64 @@ class HeroController {
     create = async ( req: Request, res: Response) => {
         try {
             const created_heroe = await this.heroService.create(req.body);
-            return res.status(200).json(created_heroe);
+            return res.status(201).json(created_heroe);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Erro ao criar herói", error });
         }
     };
+
+    update = async (req : Request, res: Response) => {
+        try {
+            const { id } = req.params;
+
+            if(!Number(id)){
+                return res.status(400).json({ message: "Dados inválidos" });
+            }
+
+            const options = {
+                where: {
+                    id: id
+                }
+            };
+            
+            const updated_records = await this.heroService.update(req.body, options);
+
+            if (updated_records === 0) {
+                return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
+            }
+
+            const updated_hero = await this.heroService.findById(Number(id));
+            return res.status(200).json(updated_hero);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Erro ao atualizar herói", error });
+        }
+    }
+
+    delete = async (req: Request, res: Response) =>{
+        try {
+            const { id } = req.params;
+            if(!Number(id)){
+                return res.status(400).json({ message: "Dados inválidos" });
+            }
+            const options = {
+                where: {
+                    id: id
+                }
+            };
+            const deleted_records = await this.heroService.delete(options);
+
+            if (deleted_records === 0) {
+                return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
+            }
+            return res.status(204).json("Registro deletado");
+
+        } catch (error){
+            console.error(error);
+            return res.status(500).json({ message: "Erro ao deletar herói", error });
+        }
+    }
 }
 
 export const heroController = new HeroController();

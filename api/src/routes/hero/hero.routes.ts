@@ -13,4 +13,12 @@ router.post("/",validateRequestBody(HeroSchema), async (req: Request, res: Respo
     await heroController.create(req,res);
 });
 
+router.put("/:id", async (req: Request, res: Response)=>{
+    await heroController.update(req,res);
+});
+
+router.delete("/:id", async (req: Request, res: Response)=>{
+    await heroController.delete(req,res);
+});
+
 export default router;
