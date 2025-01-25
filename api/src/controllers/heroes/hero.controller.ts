@@ -10,7 +10,17 @@ class HeroController {
 
     findAll = async (req: Request, res: Response) => {
         try {
-            const heroes = await this.heroService.findAll();
+
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = 10;
+            const offset = (page - 1) * limit;
+
+            const heroes = await this.heroService.findAll({
+                order: [['created_at', 'DESC']],
+                limit: limit,
+                offset: offset
+            });
+            
             return res.status(200).json(heroes);
         } catch (error) {
             console.error(error);
