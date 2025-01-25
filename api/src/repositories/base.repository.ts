@@ -8,6 +8,7 @@ import {
     WhereOptions,
     Attributes,
   } from "sequelize";
+import { RepositoryError } from "../utils/base-repository-error";
   
   export abstract class BaseRepository<T extends Model> {
     protected model: ModelStatic<T>;
@@ -17,27 +18,61 @@ import {
     }
   
     async findAll(options?: FindOptions): Promise<T[]> {
-      return this.model.findAll(options);
+      try{
+
+        return this.model.findAll(options);
+
+      } catch (error){
+
+        console.error("Erro ao buscar todos os registros:", error);
+        throw new RepositoryError("Erro ao buscar todos os registros.");
+
+      }
     }
   
     async findById(id: string, options?: FindOptions): Promise<T | null> {
-      return this.model.findByPk(id, options);
+      try {
+        return await this.model.findByPk(id, options);
+      } catch (error) {
+        console.error(`Erro ao buscar registro com ID: ${id}`, error);
+        throw new RepositoryError(`Erro ao buscar registro com ID: ${id}`);
+      }
     }
   
     async findOne(options?: FindOptions): Promise<T | null> {
-      return this.model.findOne(options);
+      try {
+        return await this.model.findOne(options);
+      } catch (error) {
+        console.error("Erro ao buscar um registro:", error);
+        throw new RepositoryError("Erro ao buscar um registro.");
+      }
     }
   
     async create(data: T["_creationAttributes"], options?: CreateOptions): Promise<T> {
-      return this.model.create(data, options);
+      try {
+        return await this.model.create(data, options);
+      } catch (error) {
+        console.error("Erro ao criar registro:", error);
+        throw new RepositoryError("Erro ao criar registro.");
+      }
     }
   
     async update(data: Partial<Attributes<T>>, options: UpdateOptions): Promise<number> {
-      const [affectedCount] = await this.model.update(data, options);
-      return affectedCount;
+      try {
+        const [affectedCount] = await this.model.update(data, options);
+        return affectedCount;
+      } catch (error) {
+        console.error("Erro ao atualizar registro:", error);
+        throw new RepositoryError("Erro ao atualizar registro.");
+      }
     }
   
     async delete(options: DestroyOptions): Promise<number> {
-      return this.model.destroy(options);
+      try {
+        return await this.model.destroy(options);
+      } catch (error) {
+        console.error("Erro ao deletar registro:", error);
+        throw new RepositoryError("Erro ao deletar registro.");
+      }
     }
   }

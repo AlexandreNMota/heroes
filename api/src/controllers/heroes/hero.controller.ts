@@ -11,28 +11,11 @@ class HeroController {
 
     findAll = async (req: Request, res: Response) => {
         try {
-
             const page = parseInt(req.query.page as string) || 1;
             const limit = 10;
-            const offset = (page - 1) * limit;
-
-            const whereConditions: any = {};
-
             const search = req.query.search as string || '';
 
-            if (search) {
-                whereConditions[Op.or] = [
-                    { name: { [Op.like]: `%${search.toLowerCase()}%` } },
-                    { nickname: { [Op.like]: `%${search.toLowerCase()}%` } },
-                ];
-            }
-
-            const heroes = await this.heroService.findAll({
-                where: whereConditions,
-                order: [['created_at', 'DESC']],
-                limit: limit,
-                offset: offset
-            });
+            const heroes = await this.heroService.findAll({ page, limit, search });
 
             return res.status(200).json(heroes);
         } catch (error) {
@@ -76,6 +59,11 @@ class HeroController {
             }
 
             const updated_hero = await this.heroService.findById(id);
+
+            if(!updated_hero){
+                return res.status(404).json({ message: "Herói atualizado mas não encontrado." });
+            }
+            
             return res.status(200).json(updated_hero);
         } catch (error) {
             console.error(error);
@@ -99,7 +87,7 @@ class HeroController {
             if (deleted_records === 0) {
                 return res.status(404).json({ message: "Nenhum herói encontrado ou alterações não feitas." });
             }
-            return res.status(200).json("Registro inativo");
+            return res.status(200).json("Registro inativado");
 
         } catch (error){
             console.error(error);

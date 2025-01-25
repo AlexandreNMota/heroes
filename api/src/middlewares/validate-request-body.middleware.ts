@@ -9,7 +9,7 @@ export const validateRequestBody = (schema: ZodSchema) => {
     } catch (error) {
       if (error instanceof ZodError) {
          res.status(400).json({
-          message: "Invalid request body",
+          message: "Corpo da requisição inválido",
           errors: error.errors,
         });
       }

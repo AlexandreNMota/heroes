@@ -11,7 +11,7 @@ const SingleHeroSchema = z.object({
   avatar_url: z.string().url("Avatar URL deve ser uma URL válida"),
   is_active: z.boolean().optional().default(true),
 });
-
+const PartialHeroSchema = SingleHeroSchema.partial();
 export const HeroSchema = z.union([SingleHeroSchema, z.array(SingleHeroSchema)]);
-
+export const PartialHeroUpdateSchema = PartialHeroSchema;
 export type IHeroCreationSchema = z.infer<typeof HeroSchema>;
