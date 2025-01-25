@@ -28,5 +28,21 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  frontend:
+    image: node:20
+    container_name: frontend-container
+    working_dir: /usr/src/app
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5173:5173"
+    command: >
+      sh -c "npm install && npm run dev -- --host"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+
 volumes:
   db_data:
