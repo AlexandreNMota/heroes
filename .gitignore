@@ -1,0 +1,15 @@
+node_modules/
+*.log
+*.pid
+*.sock
+docker-compose.override.yml
+.env
+/db_data
+.vscode/
+.idea/
+.DS_Store
+dist/
+build/
+.npm/
+.eslintcache
+.coverage/
