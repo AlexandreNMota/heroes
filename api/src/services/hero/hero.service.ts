@@ -22,7 +22,7 @@ export class HeroService extends BaseService<Hero> {
         }
     }
 
-    findAll = async (params: { page: number; limit: number; search: string }) => {
+    findAllHeroes = async (params: { page: number; limit: number; search: string }) => {
         const { page, limit, search } = params;
         const offset = (page - 1) * limit;
         try{        
@@ -34,8 +34,9 @@ export class HeroService extends BaseService<Hero> {
                     { nickname: { [Op.like]: `%${search.toLowerCase()}%` } },
                 ];
             }
-        
-            const heroes =  this.repository.findAll({
+            const totalHeroes = await this.repository.count();
+
+            const heroes =  await this.repository.findAll({
                 where: whereConditions,
                 order: [['created_at', 'DESC']],
                 limit,
@@ -45,7 +46,10 @@ export class HeroService extends BaseService<Hero> {
             if (!heroes) {
                 throw new Error('NoHeroesFound');
             }
-            return heroes;
+            return {
+                heroes,
+                totalHeroes
+            };
         } catch (error){
             console.error("Erro no serviço ao buscar heróis:", error);
             throw new Error('ServiceError');

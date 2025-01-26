@@ -75,4 +75,13 @@ import { RepositoryError } from "../utils/base-repository-error";
         throw new RepositoryError("Erro ao deletar registro.");
       }
     }
+
+    async count(options?: FindOptions): Promise<number> {
+      try {
+        return this.model.count(options);
+      } catch (error) {
+        console.error("Erro ao contar os registros:", error);
+        throw new RepositoryError("Erro ao contar os registros.");
+      }
+    }
   }

@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import {createTheme, Grid, ThemeProvider } from '@mui/material';
+import { Title } from './components/Title';
+import { FilterArea } from './components/FilterArea';
+import { HeroList } from './components/HeroList';
+import { HeroProvider } from './context/HeroContext';
 
-function App() {
-  const [count, setCount] = useState(0)
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#152d8b',
+    },
+    secondary: {
+      main: '#d32f2f',
+    },
+  },
+});
 
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <ThemeProvider theme={theme}>
+      <HeroProvider>
+        <div style={{ maxHeight: '100%', maxWidth: '100%', overflow: 'hidden', paddingTop: '50px' }}>
+          <Grid container spacing={4}>
+            <Grid item xs={1.5} />
+            <Grid item xs={9}>
+              <Grid container spacing={5}>
+                <Grid item xs={12} sx={{ display: "flex" }}>
+                  <Title title="Heróis" />
+                </Grid>
 
-export default App
+                <Grid item xs={12}>
+                  <FilterArea />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <HeroList />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={1.5} />
+          </Grid>
+        </div>
+      </HeroProvider>
+    </ThemeProvider>
+  );
+};
+
+export default App;

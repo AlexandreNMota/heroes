@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { HeroService } from "../../services/hero/hero.service";
-import { Op } from "sequelize";
 
 class HeroController {
     private heroService: HeroService;
@@ -15,9 +14,14 @@ class HeroController {
             const limit = 10;
             const search = req.query.search as string || '';
 
-            const heroes = await this.heroService.findAll({ page, limit, search });
-
-            return res.status(200).json(heroes);
+            const { heroes, totalHeroes } = await this.heroService.findAllHeroes({ page, limit, search });
+            console.log(heroes);
+            return res.status(200).json({
+                heroes,
+                totalHeroes,
+                totalPages: Math.ceil(totalHeroes / limit),
+                currentPage: page
+            });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Erro ao carregar heroes", error });
