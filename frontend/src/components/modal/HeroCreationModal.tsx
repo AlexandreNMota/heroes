@@ -1,89 +1,109 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
-  Grid,
   IconButton,
   Divider,
+  Grid,
 } from "@mui/material";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-interface HeroCreationModalProps {
-  open: boolean;
-  onClose: () => void;
-  onCreate: (heroData: { name: string; power: string; universe: string }) => void;
-}
+import { LabeledInput } from "../form-fields/TextInput";
+import { useHeroCreateModal } from "../../hooks/useHeroCreateModalContext";
 
-export const HeroCreationModal: React.FC<HeroCreationModalProps> = ({
-  open,
-  onClose,
-  onCreate,
-}) => {
-  const [name, setName] = useState<string>("");
-  const [power, setPower] = useState<string>("");
-  const [universe, setUniverse] = useState<string>("");
+
+export const HeroCreationModal: React.FC = () => {
+  const { open, heroData, closeModal, handleInputChange } = useHeroCreateModal();
 
   const handleCreate = () => {
-    if (name && power && universe) {
-      onCreate({ name, power, universe });
-      setName("");
-      setPower("");
-      setUniverse("");
-      onClose();
-    } else {
-      alert("Todos os campos são obrigatórios!");
-    }
+    console.log("Hero Data:", heroData);
+    closeModal();
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <Dialog open={open} onClose={closeModal} fullWidth maxWidth="sm"
+      sx={{
+        '& .MuiPaper-root':{
+          borderRadius:"25px"
+        }
+      }}
+    >
+      <DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding:"25px" }}>
         Criar Herói
-        <IconButton onClick={onClose} edge="end" aria-label="close">
+        <IconButton onClick={closeModal} edge="end" aria-label="close">
           <CloseOutlinedIcon />
         </IconButton>
       </DialogTitle>
       <Divider />
-      <DialogContent>
-        <Grid container spacing={2}>
+      <DialogContent sx={{padding:"50px 25px"}}>
+        <Grid container spacing={4}>
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Nome do Herói"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              variant="outlined"
+            <LabeledInput
+              label="Nome completo"
+              placeholder="Digite o nome completo"
+              value={heroData.name}
+              onChange={(e) => handleInputChange(e, "name")}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Poder"
-              value={power}
-              onChange={(e) => setPower(e.target.value)}
-              variant="outlined"
+            <LabeledInput
+              label="Nome de guerra"
+              placeholder="Digite o nome de guerra"
+              value={heroData.nickname}
+              onChange={(e) => handleInputChange(e, "nickname")}
             />
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Universo"
-              value={universe}
-              onChange={(e) => setUniverse(e.target.value)}
-              variant="outlined"
-            />
+          <Grid container item xs={12} spacing={4}>
+            <Grid item xs={6}>
+              <LabeledInput
+                label="Data de nascimento"
+                placeholder="Digite a data"
+                value={heroData.date_of_birth instanceof Date && !isNaN(heroData.date_of_birth.getTime())
+                  ? heroData.date_of_birth.toLocaleDateString('pt-BR')
+                  : heroData.date_of_birth || ""}
+                onChange={(e) => handleInputChange(e, "date_of_birth")}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <LabeledInput
+                label="Universo"
+                placeholder="Digite o universo"
+                value={heroData.universe}
+                onChange={(e) => handleInputChange(e, "universe")}
+              />
+            </Grid>
+          </Grid>
+          <Grid container item xs={12} spacing={4}>
+            <Grid item xs={6}>
+              <LabeledInput
+                label="Habilidade"
+                placeholder="Digite a habilidade"
+                value={heroData.main_power}
+                onChange={(e) => handleInputChange(e, "main_power")}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <LabeledInput
+                label="Avatar"
+                placeholder="Digite a URL"
+                value={heroData.avatar_url}
+                onChange={(e) => handleInputChange(e, "avatar_url")}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="secondary">
+      <Divider />
+      <DialogActions sx={{display:"flex", justifyContent:"center", alignItems:"center", padding:"20px"}}>
+        <Button onClick={closeModal} color="gray" variant="outlined" sx={{
+          borderColor:"rgba(0, 0, 0, 0.12)"
+        }}>
           Cancelar
         </Button>
         <Button onClick={handleCreate} variant="contained" color="primary">
-          Criar
+          Salvar
         </Button>
       </DialogActions>
     </Dialog>

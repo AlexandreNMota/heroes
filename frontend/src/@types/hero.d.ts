@@ -5,7 +5,7 @@ export interface Hero {
     is_active: boolean;
     name: string;
     nickname:string;
-    date_of_birth:Date;
+    date_of_birth:Date | null;
     universe:string;
     main_power:string;
     avatar_url:string;

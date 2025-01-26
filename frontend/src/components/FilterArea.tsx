@@ -2,15 +2,18 @@ import { Button, Grid, InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useHeroContext } from '../hooks/useHeroContext';
+import { useHeroCreateModal } from '../hooks/useHeroCreateModalContext';
 
 export const FilterArea: React.FC = () => {
   const { inputSearch, setInputSearch, handleSearch,isLoading } = useHeroContext();
+  const { openModal } = useHeroCreateModal();
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={1} container justifyContent="flex-start">
         <Button 
           variant="contained" 
           sx={{ borderRadius: '50px', padding:"10px" }}
+          onClick={()=>openModal()}
         >
           Criar
         </Button>
