@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {createTheme, Grid, ThemeProvider } from '@mui/material';
 import { Title } from './components/Title';
 import { FilterArea } from './components/FilterArea';
 import { HeroList } from './components/HeroList';
 import { HeroProvider } from './context/HeroContext';
+import { HeroCreationModal } from './components/modal/HeroCreationModal';
 
 const theme = createTheme({
   palette: {
@@ -17,6 +18,14 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleCreateHero = (heroData: { name: string; power: string; universe: string }) => {
+    console.log("Novo herói criado:", heroData);
+    // Aqui você pode chamar um serviço para enviar os dados do herói para a API.
+  };
   return (
     <ThemeProvider theme={theme}>
       <HeroProvider>
@@ -41,6 +50,11 @@ const App: React.FC = () => {
             <Grid item xs={1.5} />
           </Grid>
         </div>
+        <HeroCreationModal
+          open={isModalOpen}
+          onClose={handleCloseModal}
+          onCreate={handleCreateHero}
+        />
       </HeroProvider>
     </ThemeProvider>
   );

@@ -3,9 +3,9 @@ import { useCallback, useState } from "react";
 import { HeroCard } from "./HeroCard";
 import { useHeroContext } from "../hooks/useHeroContext";
 import { Pagination } from "./Pagination";
-
+import { AnimatePresence, motion } from "framer-motion";
 export const HeroList: React.FC = () => {
-  const { heroes, isLoading, error, page, handleNext, handlePrevious,setPage,totalPages } = useHeroContext();
+  const { heroes, page, handleNext, handlePrevious,setPage,totalPages } = useHeroContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -17,15 +17,26 @@ export const HeroList: React.FC = () => {
     setAnchorEl(null);
   }, []);
 
-  if (isLoading) return <p>Loading heroes...</p>;
-  if (error) return <p>{error}</p>;
+  if (heroes.length <= 0 && !heroes) return <p>Sem heróis cadastrados</p>;
 
   return (
     <>
       <Grid container spacing={6} justifyContent="center">
-        {heroes.map((hero, index) => (
-          <HeroCard key={index} hero={hero} onClick={handleClick} anchorEl={anchorEl} open={open} onClose={handleClose} />
-        ))}
+        <AnimatePresence mode="wait">
+          {heroes.map((hero, index) => (
+            <Grid item xs={2.4} key={hero.id || index}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -20 }} 
+                transition={{ duration: 0.3 }}
+                style={{width:"100%", minWidth:"100%"}}
+              >
+                <HeroCard hero={hero} onClick={handleClick} anchorEl={anchorEl} open={open} onClose={handleClose} />
+              </motion.div>
+            </Grid>
+          ))}
+        </AnimatePresence>
       </Grid>
       <Grid container justifyContent="end">
         <Pagination

@@ -41,7 +41,6 @@ export const HeroCard: React.FC<{
   open: boolean; 
   onClose: () => void; 
 }> = ({ hero, onClick, anchorEl, open, onClose }) => (
-  <Grid item xs={2.4}>
     <Card sx={{...styles.card, filter:hero.is_active ? "none" : "grayscale(100%)"}}>
       <IconButton onClick={onClick} sx={styles.iconButton}>
         <MoreVertIcon />
@@ -60,5 +59,4 @@ export const HeroCard: React.FC<{
         </Typography>
       </CardContent>
     </Card>
-  </Grid>
 );
