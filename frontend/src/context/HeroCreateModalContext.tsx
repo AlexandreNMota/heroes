@@ -90,6 +90,9 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Partial<Hero>) => {
     const value = e.target.value;
     if (field === "date_of_birth") {
+      if(value.length > 10){
+        return;
+      }
       if (value.length === 10) {
         const datePattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
         const match = value.match(datePattern);
@@ -105,10 +108,12 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
             setHeroData((prevData) => ({ ...prevData, [field]: date }));
           } else {
             setMessage("Data inválida!");
+            setSeverity("error");
             setAlertOpen(true);
           }
         } else {
           setMessage("Formato inválido. Use dd/mm/yyyy.");
+          setSeverity("error");
           setAlertOpen(true);
         }
       } else {
