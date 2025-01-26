@@ -19,6 +19,7 @@ interface HeroContextProps {
   inputSearch:string;
   handleSearch:()=>void;
   setInputSearch: (inputSearch: string) => void;
+  handleCreateHero: (heroData: Hero)=> Promise<void>;
 }
 
 const HeroContext = createContext<HeroContextProps | undefined>(undefined);
@@ -29,6 +30,7 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [inputSearch, setInputSearch] = useState<string>("");
+  const [refreshFlag, setRefreshFlag] = useState<boolean>(false);
 
   const handleNext = () => setPage(page + 1);
   const handlePrevious = () => setPage(page - 1);
@@ -40,9 +42,18 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const { data, isLoading, error } = useFetch<HeroResponse>(
     () => heroService.getAllHeroes(page, search), 
     { heroes: [], totalHeroes: 0, totalPages: 0, currentPage: 1 },
-    [page, search]
+    [page, search,refreshFlag]
   );
   const { heroes, totalHeroes, totalPages, currentPage } = data;
+
+  const handleCreateHero = async (heroData: Hero) => {
+    try {
+      await heroService.createHero(heroData);
+      setRefreshFlag((prev) => !prev);
+    } catch (err) {
+      console.error("Erro ao criar herói:", err);
+    }
+  };
 
   return (
     <HeroContext.Provider
@@ -61,7 +72,8 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         currentPage,
         inputSearch,
         setInputSearch,
-        handleSearch
+        handleSearch,
+        handleCreateHero
       }}
     >
       {children}

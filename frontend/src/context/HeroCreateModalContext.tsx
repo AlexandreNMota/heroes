@@ -1,5 +1,6 @@
-import React, { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 import { Hero } from "../@types/hero";
+import { HeroContext } from "./HeroContext";
 
 interface HeroCreateModalContextProps {
   open: boolean;
@@ -10,6 +11,7 @@ interface HeroCreateModalContextProps {
   alertOpen: boolean; 
   closeAlert: () => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Partial<Hero>) => void;
+  handleCreate: () => Promise<void>;
 }
 
 const HeroCreateModalContext = createContext<HeroCreateModalContextProps | undefined>(undefined);
@@ -29,6 +31,7 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
     avatar_url: "",
   });
 
+  const { handleCreateHero } = useContext(HeroContext);
   const openModal = (data: Partial<Hero> = {
     name: "",
     nickname: "",
@@ -49,6 +52,29 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
 
   const closeModal = () => {
     setOpen(false);
+  };
+
+  const handleCreate = async () => {
+    if (!heroData.name || !heroData.nickname || !heroData.main_power || !heroData.universe || !heroData.avatar_url) {
+      setMessage("Todos os campos devem ser preenchidos.");
+      setAlertOpen(true);
+      return;
+    }
+
+    if (!heroData.date_of_birth || !(heroData.date_of_birth instanceof Date) || isNaN(heroData.date_of_birth.getTime())) {
+      setMessage("Data de nascimento inválida.");
+      setAlertOpen(true);
+      return;
+    }
+    try {
+      await handleCreateHero(heroData as Hero);
+      setMessage(`Herói ${heroData.name} criado com sucesso!`);
+      setAlertOpen(true);
+      closeModal();
+    } catch (error) {
+      setMessage("Erro ao criar herói.");
+      setAlertOpen(true);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Partial<Hero>) => {
@@ -88,7 +114,8 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
       handleInputChange,
       message,
       alertOpen,
-      closeAlert
+      closeAlert,
+      handleCreate
       }}>
       {children}
     </HeroCreateModalContext.Provider>

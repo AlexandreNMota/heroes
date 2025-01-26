@@ -15,12 +15,7 @@ import { useHeroCreateModal } from "../../hooks/useHeroCreateModalContext";
 
 
 export const HeroCreationModal: React.FC = () => {
-  const { open, heroData, closeModal, handleInputChange } = useHeroCreateModal();
-
-  const handleCreate = () => {
-    console.log("Hero Data:", heroData);
-    closeModal();
-  };
+  const { open, heroData, closeModal, handleInputChange,handleCreate } = useHeroCreateModal();
 
   return (
     <Dialog open={open} onClose={closeModal} fullWidth maxWidth="sm"
