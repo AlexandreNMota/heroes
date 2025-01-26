@@ -11,15 +11,7 @@ import {
   Grid,
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
-interface Hero {
-  name: string;
-  nickname: string;
-  date_of_birth: string | Date;
-  universe: string;
-  main_power: string;
-  avatar_url: string;
-}
+import { Hero } from "../../@types/hero";
 
 interface HeroViewModalProps {
   open: boolean;
