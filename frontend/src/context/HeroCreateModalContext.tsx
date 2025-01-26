@@ -96,7 +96,11 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
 
         if (match) {
           const [_, day, month, year] = match;
-          const date = new Date(`${year}-${month}-${day}`);
+          const date = new Date(
+            parseInt(year),
+            parseInt(month) - 1,
+            parseInt(day)
+          );
           if (date instanceof Date && !isNaN(date.getTime())) {
             setHeroData((prevData) => ({ ...prevData, [field]: date }));
           } else {
