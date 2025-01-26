@@ -9,6 +9,7 @@ interface HeroCreateModalContextProps {
   closeModal: () => void;
   message: string;
   alertOpen: boolean; 
+  severity:string;
   closeAlert: () => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Partial<Hero>) => void;
   handleCreate: () => Promise<void>;
@@ -22,6 +23,7 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("error");
   const [heroData, setHeroData] = useState<Partial<Hero>>({
     name: "",
     nickname: "",
@@ -57,18 +59,21 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
   const handleCreate = async () => {
     if (!heroData.name || !heroData.nickname || !heroData.main_power || !heroData.universe || !heroData.avatar_url) {
       setMessage("Todos os campos devem ser preenchidos.");
+      setSeverity("error");
       setAlertOpen(true);
       return;
     }
 
     if (!heroData.date_of_birth || !(heroData.date_of_birth instanceof Date) || isNaN(heroData.date_of_birth.getTime())) {
       setMessage("Data de nascimento inválida.");
+      setSeverity("error");
       setAlertOpen(true);
       return;
     }
     try {
       await handleCreateHero(heroData as Hero);
-      setMessage(`Herói ${heroData.name} criado com sucesso!`);
+      setMessage(`Herói ${heroData.nickname} criado com sucesso!`);
+      setSeverity("success");
       setAlertOpen(true);
       closeModal();
     } catch (error) {
@@ -115,7 +120,8 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
       message,
       alertOpen,
       closeAlert,
-      handleCreate
+      handleCreate,
+      severity
       }}>
       {children}
     </HeroCreateModalContext.Provider>

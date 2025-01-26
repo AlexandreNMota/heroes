@@ -3,7 +3,7 @@ import { Snackbar, Alert as MuiAlert } from "@mui/material";
 import { useHeroCreateModal } from "../../hooks/useHeroCreateModalContext";
 
 const Alert: React.FC = () => {
-    const { alertOpen, message, closeAlert } = useHeroCreateModal();
+    const { alertOpen, message, closeAlert,severity } = useHeroCreateModal();
   return (
     <Snackbar
     anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -12,7 +12,7 @@ const Alert: React.FC = () => {
       message={message}
       key="top-right"
     >
-      <MuiAlert severity="error" onClose={closeAlert}>
+      <MuiAlert severity={severity} onClose={closeAlert}>
         {message}
       </MuiAlert>
     </Snackbar>

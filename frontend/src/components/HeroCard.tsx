@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, IconButton, Typography } from "@mui/material";
+import { Card, CardContent, IconButton, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Hero } from "../@types/hero";
 import { HeroMenu } from "./HeroMenu";
@@ -55,7 +55,7 @@ export const HeroCard: React.FC<{
           style={{...styles.img, objectFit:"cover"}}
         />
         <Typography variant="h6" component="div" sx={styles.name}>
-          {hero.name}
+          {hero.nickname}
         </Typography>
       </CardContent>
     </Card>
