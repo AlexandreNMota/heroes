@@ -15,7 +15,7 @@ import { useHeroCreateModal } from "../../hooks/useHeroCreateModalContext";
 
 
 export const HeroCreationModal: React.FC = () => {
-  const { open, heroData, closeModal, handleInputChange,handleCreate } = useHeroCreateModal();
+  const { open, heroData, closeModal, handleInputChange,handleCreate,loading } = useHeroCreateModal();
 
   return (
     <Dialog open={open} onClose={closeModal} fullWidth maxWidth="sm"
@@ -97,7 +97,7 @@ export const HeroCreationModal: React.FC = () => {
         }}>
           Cancelar
         </Button>
-        <Button onClick={handleCreate} variant="contained" color="primary">
+        <Button onClick={handleCreate} variant="contained" color="primary" loading={loading}>
           Salvar
         </Button>
       </DialogActions>

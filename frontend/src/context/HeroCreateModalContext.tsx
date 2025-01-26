@@ -13,6 +13,7 @@ interface HeroCreateModalContextProps {
   closeAlert: () => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Partial<Hero>) => void;
   handleCreate: () => Promise<void>;
+  loading:boolean;
 }
 
 const HeroCreateModalContext = createContext<HeroCreateModalContextProps | undefined>(undefined);
@@ -22,6 +23,7 @@ const HeroCreateModalContext = createContext<HeroCreateModalContextProps | undef
 export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("error");
   const [heroData, setHeroData] = useState<Partial<Hero>>({
@@ -71,12 +73,15 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
       return;
     }
     try {
+      setLoading(true);
       await handleCreateHero(heroData as Hero);
       setMessage(`Herói ${heroData.nickname} criado com sucesso!`);
       setSeverity("success");
+      setLoading(false);
       setAlertOpen(true);
       closeModal();
     } catch (error) {
+      setLoading(false);
       setMessage("Erro ao criar herói.");
       setAlertOpen(true);
     }
@@ -121,7 +126,8 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
       alertOpen,
       closeAlert,
       handleCreate,
-      severity
+      severity,
+      loading
       }}>
       {children}
     </HeroCreateModalContext.Provider>
