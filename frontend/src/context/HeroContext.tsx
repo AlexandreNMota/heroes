@@ -16,6 +16,9 @@ interface HeroContextProps {
   totalPages: number;
   totalHeroes: number;
   currentPage: number;
+  inputSearch:string;
+  handleSearch:()=>void;
+  setInputSearch: (inputSearch: string) => void;
 }
 
 const HeroContext = createContext<HeroContextProps | undefined>(undefined);
@@ -25,10 +28,14 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
+  const [inputSearch, setInputSearch] = useState<string>("");
 
   const handleNext = () => setPage(page + 1);
   const handlePrevious = () => setPage(page - 1);
-
+  const handleSearch = () => {
+    setSearch(inputSearch);
+    setPage(1);
+  };
 
   const { data, isLoading, error } = useFetch<HeroResponse>(
     () => heroService.getAllHeroes(page, search), 
@@ -52,6 +59,9 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         totalPages,
         totalHeroes,
         currentPage,
+        inputSearch,
+        setInputSearch,
+        handleSearch
       }}
     >
       {children}
