@@ -20,6 +20,7 @@ interface HeroContextProps {
   handleSearch:()=>void;
   setInputSearch: (inputSearch: string) => void;
   handleCreateHero: (heroData: Hero)=> Promise<void>;
+  handleUpdateHero: (heroData: Hero)=> Promise<void>;
   selectedHero:Hero| null;
   setSelectedHero:(hero: Hero | null)=>void;
   handleHeroDelete: () => Promise<void>;
@@ -66,6 +67,15 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const handleCreateHero = async (heroData: Hero) => {
     try {
       await heroService.createHero(heroData);
+      setRefreshFlag((prev) => !prev);
+    } catch (err) {
+      console.error("Erro ao criar herói:", err);
+    }
+  };
+  const handleUpdateHero = async (heroData: Hero) => {
+    try {
+      const { id, updated_at, updatedAt, created_at, createdAt, ...rest} = heroData;
+      await heroService.updateHero(id, rest);
       setRefreshFlag((prev) => !prev);
     } catch (err) {
       console.error("Erro ao criar herói:", err);
@@ -129,7 +139,8 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         message,
         alertOpen,
         closeAlert,
-        severity
+        severity,
+        handleUpdateHero
       }}
     >
       {children}
