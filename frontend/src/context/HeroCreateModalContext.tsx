@@ -5,7 +5,7 @@ import { HeroContext } from "./HeroContext";
 interface HeroCreateModalContextProps {
   open: boolean;
   heroData: Partial<Hero>;
-  openModal: (data?: Partial<Hero>) => void;
+  openModal: (data?: Partial<Hero>,isEdicao?:boolean) => void;
   closeModal: () => void;
   message: string;
   alertOpen: boolean; 
@@ -14,6 +14,7 @@ interface HeroCreateModalContextProps {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Partial<Hero>) => void;
   handleCreate: () => Promise<void>;
   loading:boolean;
+  isEdit:boolean;
 }
 
 const HeroCreateModalContext = createContext<HeroCreateModalContextProps | undefined>(undefined);
@@ -26,6 +27,7 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("error");
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [heroData, setHeroData] = useState<Partial<Hero>>({
     name: "",
     nickname: "",
@@ -36,6 +38,7 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
   });
 
   const { handleCreateHero } = useContext(HeroContext);
+  
   const openModal = (data: Partial<Hero> = {
     name: "",
     nickname: "",
@@ -43,7 +46,8 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
     universe: "",
     date_of_birth: null,
     avatar_url: "",
-  }) => {
+  }, isEdicao?: boolean) => {
+    setIsEdit(isEdicao ?? false);
     setHeroData(data);
     setOpen(true);
   };
@@ -136,7 +140,8 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({ chi
       closeAlert,
       handleCreate,
       severity,
-      loading
+      loading,
+      isEdit
       }}>
       {children}
     </HeroCreateModalContext.Provider>

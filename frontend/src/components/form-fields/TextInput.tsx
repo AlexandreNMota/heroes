@@ -3,6 +3,7 @@ import { TextField, Typography, Grid, TextFieldProps, InputAdornment } from "@mu
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 interface LabeledInputProps extends Omit<TextFieldProps, "placeholder" | "sx"> {
   label: string;
+  disabled?:boolean;
   placeholder?: string;
   sx?: any;
 }
@@ -10,6 +11,7 @@ interface LabeledInputProps extends Omit<TextFieldProps, "placeholder" | "sx"> {
 export const LabeledInput: React.FC<LabeledInputProps> = ({
   label,
   placeholder,
+  disabled,
   sx,
   ...textFieldProps
 }) => {
@@ -33,6 +35,7 @@ export const LabeledInput: React.FC<LabeledInputProps> = ({
         fullWidth
         placeholder={placeholder}
         variant="outlined"
+        disabled={disabled ?? false}
         size="small"
         InputProps={inputProps}
         sx={{

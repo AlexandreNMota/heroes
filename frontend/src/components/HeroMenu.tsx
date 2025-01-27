@@ -5,6 +5,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useHeroContext } from "../hooks/useHeroContext";
 import { ConfirmModal } from "./modal/ConfirmModal";
 import { useState } from "react";
+import { useHeroCreateModal } from "../hooks/useHeroCreateModalContext";
+import { formatDate } from "../utils/date";
 
 const styles = {
     menuItem: {
@@ -18,6 +20,7 @@ const styles = {
 
 export const HeroMenu: React.FC<{ anchorEl: null | HTMLElement; open: boolean; onClose: () => void; }> = ({ anchorEl, open, onClose }) => {
   const { selectedHero, setSelectedHero, handleHeroDelete, handleHeroReativate} = useHeroContext();
+  const {openModal} = useHeroCreateModal();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   
@@ -82,6 +85,9 @@ export const HeroMenu: React.FC<{ anchorEl: null | HTMLElement; open: boolean; o
       <MenuItem sx={styles.menuItem}>
         <IconButton
           disabled={!selectedHero || !selectedHero.is_active}
+          onClick={()=>openModal({
+            ...selectedHero, date_of_birth: formatDate(selectedHero?.date_of_birth!)
+          },true)}
           sx={{
             '&.MuiButtonBase-root':{
               color: !selectedHero || !selectedHero.is_active ? 'gray' : 'inherit',

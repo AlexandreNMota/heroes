@@ -15,7 +15,6 @@ class HeroController {
             const search = req.query.search as string || '';
 
             const { heroes, totalHeroes } = await this.heroService.findAllHeroes({ page, limit, search });
-            console.log(heroes);
             return res.status(200).json({
                 heroes,
                 totalHeroes,
