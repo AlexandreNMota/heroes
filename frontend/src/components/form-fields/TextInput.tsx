@@ -1,9 +1,15 @@
 import React from "react";
-import { TextField, Typography, Grid, TextFieldProps, InputAdornment } from "@mui/material";
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import {
+  TextField,
+  Typography,
+  Grid,
+  TextFieldProps,
+  InputAdornment,
+} from "@mui/material";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 interface LabeledInputProps extends Omit<TextFieldProps, "placeholder" | "sx"> {
   label: string;
-  disabled?:boolean;
+  disabled?: boolean;
   placeholder?: string;
   sx?: any;
 }
@@ -16,15 +22,15 @@ export const LabeledInput: React.FC<LabeledInputProps> = ({
   ...textFieldProps
 }) => {
   const inputProps =
-  label === "Data de nascimento"
-  ? {
-    endAdornment: (
-    <InputAdornment position="end">
-      <CalendarTodayOutlinedIcon />
-    </InputAdornment>
-    ),
-  }
-  : undefined;
+    label === "Data de nascimento"
+      ? {
+          endAdornment: (
+            <InputAdornment position="end">
+              <CalendarTodayOutlinedIcon />
+            </InputAdornment>
+          ),
+        }
+      : undefined;
 
   return (
     <Grid item xs={12}>
@@ -39,8 +45,8 @@ export const LabeledInput: React.FC<LabeledInputProps> = ({
         size="small"
         InputProps={inputProps}
         sx={{
-          '& .MuiOutlinedInput-root': {
-            borderRadius: '50px',
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "50px",
             backgroundColor: "#fff",
           },
           ...sx,

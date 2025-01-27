@@ -7,14 +7,17 @@ export class HeroService extends AxiosService {
     super("http://127.0.0.1:3000/heroes");
   }
 
-  public async getAllHeroes(page?: number, search?: string): Promise<HeroResponse> {
+  public async getAllHeroes(
+    page?: number,
+    search?: string
+  ): Promise<HeroResponse> {
     const params = new URLSearchParams();
 
     if (page !== undefined) {
-        params.append("page", page.toString());
+      params.append("page", page.toString());
     }
     if (search) {
-        params.append("search", search);
+      params.append("search", search);
     }
     const url = params.toString() ? `/?${params.toString()}` : "/";
     return this.get(url);

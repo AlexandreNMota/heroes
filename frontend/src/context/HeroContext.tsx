@@ -11,29 +11,31 @@ interface HeroContextProps {
   search: string;
   setPage: (page: number) => void;
   setSearch: (search: string) => void;
-  handleNext: () =>void;
-  handlePrevious: () =>void;
+  handleNext: () => void;
+  handlePrevious: () => void;
   totalPages: number;
   totalHeroes: number;
   currentPage: number;
-  inputSearch:string;
-  handleSearch:()=>void;
+  inputSearch: string;
+  handleSearch: () => void;
   setInputSearch: (inputSearch: string) => void;
-  handleCreateHero: (heroData: Hero)=> Promise<void>;
-  handleUpdateHero: (heroData: Hero)=> Promise<void>;
-  selectedHero:Hero| null;
-  setSelectedHero:(hero: Hero | null)=>void;
+  handleCreateHero: (heroData: Hero) => Promise<void>;
+  handleUpdateHero: (heroData: Hero) => Promise<void>;
+  selectedHero: Hero | null;
+  setSelectedHero: (hero: Hero | null) => void;
   handleHeroDelete: () => Promise<void>;
   handleHeroReativate: () => Promise<void>;
   message: string;
-  alertOpen: boolean; 
-  severity:string;
+  alertOpen: boolean;
+  severity: string;
   closeAlert: () => void;
 }
 
 const HeroContext = createContext<HeroContextProps | undefined>(undefined);
 
-export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const HeroProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const heroService = new HeroService();
 
   const [page, setPage] = useState<number>(1);
@@ -58,9 +60,9 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const { data, isLoading, error } = useFetch<HeroResponse>(
-    () => heroService.getAllHeroes(page, search), 
+    () => heroService.getAllHeroes(page, search),
     { heroes: [], totalHeroes: 0, totalPages: 0, currentPage: 1 },
-    [page, search,refreshFlag]
+    [page, search, refreshFlag]
   );
   const { heroes, totalHeroes, totalPages, currentPage } = data;
 
@@ -74,7 +76,8 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
   const handleUpdateHero = async (heroData: Hero) => {
     try {
-      const { id, updated_at, updatedAt, created_at, createdAt, ...rest} = heroData;
+      const { id, updated_at, updatedAt, created_at, createdAt, ...rest } =
+        heroData;
       await heroService.updateHero(id, rest);
       setRefreshFlag((prev) => !prev);
     } catch (err) {
@@ -84,34 +87,34 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const handleHeroDelete = async () => {
     try {
-      if(selectedHero){
+      if (selectedHero) {
         await heroService.deleteHero(selectedHero.id);
         setRefreshFlag((prev) => !prev);
         setMessage("Herói inativado.");
         setSeverity("success");
         setAlertOpen(true);
       }
-    } catch(err) {
+    } catch (err) {
       setMessage("Erro ao inativar herói.");
       setSeverity("error");
       setAlertOpen(true);
     }
-  }
+  };
   const handleHeroReativate = async () => {
     try {
-      if(selectedHero){
-        await heroService.updateHero(selectedHero.id, { is_active: true});
+      if (selectedHero) {
+        await heroService.updateHero(selectedHero.id, { is_active: true });
         setRefreshFlag((prev) => !prev);
         setMessage("Herói reativado.");
         setSeverity("success");
         setAlertOpen(true);
       }
-    } catch(err) {
+    } catch (err) {
       setMessage("Erro ao reativar herói.");
       setSeverity("success");
       setAlertOpen(true);
     }
-  }
+  };
 
   return (
     <HeroContext.Provider
@@ -140,7 +143,7 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         alertOpen,
         closeAlert,
         severity,
-        handleUpdateHero
+        handleUpdateHero,
       }}
     >
       {children}

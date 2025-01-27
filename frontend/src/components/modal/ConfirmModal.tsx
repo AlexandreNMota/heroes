@@ -13,7 +13,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const styles = {
   dialogBox: {
-    '& .MuiPaper-root': {
+    "& .MuiPaper-root": {
       borderRadius: "25px",
     },
   },
@@ -42,7 +42,7 @@ type ConfirmModalProps = {
   cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
-  loading:boolean;
+  loading: boolean;
 };
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
@@ -80,7 +80,12 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <Button variant="outlined" color="gray" onClick={onCancel}>
           {cancelLabel}
         </Button>
-        <Button variant="contained" color="primary" onClick={onConfirm} loading={loading}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onConfirm}
+          loading={loading}
+        >
           {confirmLabel}
         </Button>
       </DialogActions>

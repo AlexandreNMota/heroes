@@ -1,6 +1,6 @@
 export class RepositoryError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "RepositoryError";
-    }
+  constructor(message: string) {
+    super(message);
+    this.name = "RepositoryError";
+  }
 }

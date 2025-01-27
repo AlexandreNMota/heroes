@@ -19,14 +19,19 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   return (
-    <Box display="flex" justifyContent="center" marginTop={4} sx={{position:"absolute", bottom:"20px"}}>
+    <Box
+      display="flex"
+      justifyContent="center"
+      marginTop={4}
+      sx={{ position: "absolute", bottom: "20px" }}
+    >
       <Stack direction="row" spacing={2} alignItems="center">
         <IconButton
           onClick={onPrevious}
           disabled={currentPage === 1}
           sx={{
             width: "36px",
-            minWidth:"36px",
+            minWidth: "36px",
             height: "36px",
             padding: 0,
           }}
@@ -38,23 +43,28 @@ export const Pagination: React.FC<PaginationProps> = ({
             variant="contained"
             onClick={() => onPageChange(currentPage - 1)}
             sx={{
-                backgroundColor: "#e6eaf8",
-                color: "#152d8b",
-                width: "36px",
-            minWidth:"36px",
-            height: "36px",
-            padding: 0,
+              backgroundColor: "#e6eaf8",
+              color: "#152d8b",
+              width: "36px",
+              minWidth: "36px",
+              height: "36px",
+              padding: 0,
             }}
           >
             {currentPage - 1}
           </Button>
         )}
-        <Button variant="contained" color="secondary" disabled sx={{
-           width: "36px",
-           minWidth:"36px",
-           height: "36px",
-           padding: 0,
-        }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled
+          sx={{
+            width: "36px",
+            minWidth: "36px",
+            height: "36px",
+            padding: 0,
+          }}
+        >
           {currentPage}
         </Button>
 
@@ -64,12 +74,12 @@ export const Pagination: React.FC<PaginationProps> = ({
             color="primary"
             onClick={() => onPageChange(currentPage + 1)}
             sx={{
-                backgroundColor: "#e6eaf8",
-                color: "#152d8b",
-                width: "36px",
-            minWidth:"36px",
-            height: "36px",
-            padding: 0,
+              backgroundColor: "#e6eaf8",
+              color: "#152d8b",
+              width: "36px",
+              minWidth: "36px",
+              height: "36px",
+              padding: 0,
             }}
           >
             {currentPage + 1}
@@ -80,7 +90,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           disabled={currentPage === totalPages}
           sx={{
             width: "36px",
-            minWidth:"36px",
+            minWidth: "36px",
             height: "36px",
             padding: 0,
           }}

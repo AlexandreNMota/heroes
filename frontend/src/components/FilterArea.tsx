@@ -1,19 +1,20 @@
-import { Button, Grid, InputAdornment, TextField } from '@mui/material';
-import React from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import { useHeroContext } from '../hooks/useHeroContext';
-import { useHeroCreateModal } from '../hooks/useHeroCreateModalContext';
+import { Button, Grid, InputAdornment, TextField } from "@mui/material";
+import React from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import { useHeroContext } from "../hooks/useHeroContext";
+import { useHeroCreateModal } from "../hooks/useHeroCreateModalContext";
 
 export const FilterArea: React.FC = () => {
-  const { inputSearch, setInputSearch, handleSearch,isLoading } = useHeroContext();
+  const { inputSearch, setInputSearch, handleSearch, isLoading } =
+    useHeroContext();
   const { openModal } = useHeroCreateModal();
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={1} container justifyContent="flex-start">
-        <Button 
-          variant="contained" 
-          sx={{ borderRadius: '50px', padding:"10px" }}
-          onClick={()=>openModal()}
+        <Button
+          variant="contained"
+          sx={{ borderRadius: "50px", padding: "10px" }}
+          onClick={() => openModal()}
         >
           Criar
         </Button>
@@ -33,31 +34,31 @@ export const FilterArea: React.FC = () => {
             ),
           }}
           sx={{
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '50px',
-              backgroundColor:"#fff",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "50px",
+              backgroundColor: "#fff",
             },
-            '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
+            "& .MuiOutlinedInput-notchedOutline": {
+              border: "none",
             },
-            '& .Mui-focused':{
-                    border: '2px solid #152d8b',
-            }
+            "& .Mui-focused": {
+              border: "2px solid #152d8b",
+            },
           }}
         />
       </Grid>
-      <Grid item xs={1} container justifyContent='end'>
-        <Button 
+      <Grid item xs={1} container justifyContent="end">
+        <Button
           variant="contained"
           onClick={handleSearch}
           loading={isLoading}
-          sx={{ 
-            borderRadius: '50px', 
-            padding:"10px", 
-            backgroundColor:"#fff", 
-            borderColor:"#e9e9e9",
+          sx={{
+            borderRadius: "50px",
+            padding: "10px",
+            backgroundColor: "#fff",
+            borderColor: "#e9e9e9",
             color: "#0c0c0c",
-          }} 
+          }}
         >
           Buscar
         </Button>

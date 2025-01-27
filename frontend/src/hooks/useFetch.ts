@@ -7,7 +7,7 @@ interface FetchState<T> {
   isLoading: boolean;
 }
 
-export  interface HeroResponse {
+export interface HeroResponse {
   heroes: Hero[];
   totalHeroes: number;
   totalPages: number;

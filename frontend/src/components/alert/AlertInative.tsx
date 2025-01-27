@@ -3,10 +3,10 @@ import { Snackbar, Alert as MuiAlert } from "@mui/material";
 import { useHeroContext } from "../../hooks/useHeroContext";
 
 const AlertInative: React.FC = () => {
-    const { alertOpen, message, closeAlert,severity } = useHeroContext();
+  const { alertOpen, message, closeAlert, severity } = useHeroContext();
   return (
     <Snackbar
-    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       open={alertOpen}
       onClose={closeAlert}
       message={message}
