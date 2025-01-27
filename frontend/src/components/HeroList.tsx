@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 export const HeroList: React.FC = () => {
   const { heroes, page, handleNext, handlePrevious,setPage,totalPages } = useHeroContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+
   const open = Boolean(anchorEl);
 
   const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -17,7 +19,7 @@ export const HeroList: React.FC = () => {
     setAnchorEl(null);
   }, []);
 
-  if (heroes.length <= 0 && !heroes) return <p>Sem heróis cadastrados</p>;
+  if (!heroes || heroes.length <= 0) return <p>Sem heróis cadastrados</p>;
 
   return (
     <>

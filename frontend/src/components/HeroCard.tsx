@@ -4,6 +4,7 @@ import { Hero } from "../@types/hero";
 import { HeroMenu } from "./HeroMenu";
 import { useState } from "react";
 import { HeroViewModal } from "./modal/HeroView";
+import { useHeroContext } from "../hooks/useHeroContext";
 
 const styles = {
   card: {
@@ -44,12 +45,15 @@ export const HeroCard: React.FC<{
   onClose: () => void; 
 }> = ({ hero, onClick, anchorEl, open, onClose }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedHero, setSelectedHero] = useState<Hero | null>(null);
+  const { selectedHero, setSelectedHero} = useHeroContext();
   return (
   <>
     <Card sx={{...styles.card, filter:hero.is_active ? "none" : "grayscale(100%)"}}>
       <IconButton onClick={(event)=>{
         event.stopPropagation();
+        setSelectedHero({
+          ...hero, date_of_birth:hero.date_of_birth as Date
+        });
         onClick(event);
       }} sx={styles.iconButton}>
         <MoreVertIcon />
@@ -60,7 +64,7 @@ export const HeroCard: React.FC<{
       <CardContent sx={styles.cardContent}>
       <Tooltip title={`Visualizar ${hero.nickname}`} arrow>
         <img
-          src="https://i.imgur.com/558s1Wc.jpeg"
+          src={hero.avatar_url}
           alt={hero.name}
           style={{...styles.img, objectFit:"cover", cursor:"pointer"}}
           onClick={()=>{
@@ -79,7 +83,9 @@ export const HeroCard: React.FC<{
     <HeroViewModal
         open={isModalOpen}
         hero={selectedHero}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setSelectedHero(null);
+          setIsModalOpen(false)}}
     />
   </>
 )};

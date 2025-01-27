@@ -7,6 +7,7 @@ import { HeroProvider } from './context/HeroContext';
 import { HeroCreationModal } from './components/modal/HeroCreationModal';
 import { HeroCreateModalProvider } from './context/HeroCreateModalContext';
 import Alert from './components/alert/Alert';
+import AlertInative from './components/alert/AlertInative';
 
 const theme = createTheme({
   palette: {
@@ -47,6 +48,7 @@ const App: React.FC = () => {
           </div>
           <HeroCreationModal />
           <Alert />
+          <AlertInative />
         </HeroCreateModalProvider>
       </HeroProvider>
     </ThemeProvider>
