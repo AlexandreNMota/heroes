@@ -7,6 +7,7 @@ import { ConfirmModal } from "./modal/ConfirmModal";
 import { useState } from "react";
 import { useHeroCreateModal } from "../hooks/useHeroCreateModalContext";
 import { formatDate } from "../utils/date";
+import { HeroMenuProps } from "../@types/components/HeroMenu";
 
 const styles = {
   menuItem: {
@@ -18,11 +19,11 @@ const styles = {
   },
 };
 
-export const HeroMenu: React.FC<{
-  anchorEl: null | HTMLElement;
-  open: boolean;
-  onClose: () => void;
-}> = ({ anchorEl, open, onClose }) => {
+export const HeroMenu: React.FC<HeroMenuProps> = ({
+  anchorEl,
+  open,
+  onClose,
+}) => {
   const {
     selectedHero,
     setSelectedHero,

@@ -11,48 +11,64 @@ import {
   Grid,
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { Hero } from "../../@types/hero";
 import { formatDate } from "../../utils/date";
+import { HeroViewModalProps } from "../../@types/components/modal/HeroView";
 
-interface HeroViewModalProps {
-  open: boolean;
-  hero: Hero | null;
-  onClose: () => void;
-}
+const styles = {
+  dialog: {
+    "& .MuiPaper-root": {
+      borderRadius: "25px",
+    },
+  },
+  dialogTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "25px",
+  },
+  dialogContent: {
+    padding: "25px",
+  },
+  imgContainer: {
+    textAlign: "center",
+  },
+  dialogActions: {
+    padding: "30px",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  closeBtn: {
+    borderColor: "rgba(0, 0, 0, 0.12)",
+  },
+};
 
-export const HeroViewModal: React.FC<HeroViewModalProps> = ({ open, hero, onClose }) => {
+export const HeroViewModal: React.FC<HeroViewModalProps> = ({
+  open,
+  hero,
+  onClose,
+}) => {
   if (!hero) return null;
 
-  
-  
-
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm"
-      sx={{
-        "& .MuiPaper-root": {
-          borderRadius: "25px",
-        },
-      }}
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+      sx={styles.dialog}
     >
-      <DialogTitle
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "25px",
-        }}
-      >
+      <DialogTitle sx={styles.dialogTitle}>
         <Typography variant="h6" fontWeight="bold">
-            {hero.nickname}
+          {hero.nickname}
         </Typography>
         <IconButton onClick={onClose} edge="end" aria-label="close">
           <CloseOutlinedIcon />
         </IconButton>
       </DialogTitle>
       <Divider />
-      <DialogContent sx={{ padding: "25px" }}>
+      <DialogContent sx={styles.dialogContent}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sx={{ textAlign: "center" }}>
+          <Grid item xs={12} sx={styles.imgContainer}>
             <img
               src={hero.avatar_url}
               alt={hero.name}
@@ -91,16 +107,13 @@ export const HeroViewModal: React.FC<HeroViewModalProps> = ({ open, hero, onClos
         </Grid>
       </DialogContent>
       <Divider />
-      <DialogActions
-        sx={{
-          padding: "30px",
-          justifyContent: "center",
-          alignItems:"center"
-        }}
-      >
-        <Button onClick={onClose} color="gray" variant="outlined" sx={{
-          borderColor:"rgba(0, 0, 0, 0.12)"
-        }}>
+      <DialogActions sx={styles.dialogActions}>
+        <Button
+          onClick={onClose}
+          color="gray"
+          variant="outlined"
+          sx={styles.closeBtn}
+        >
           Fechar
         </Button>
       </DialogActions>

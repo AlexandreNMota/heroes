@@ -1,25 +1,24 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { TitleProps } from "../@types/components/Title";
 
-interface TitleProps {
-  title: string;
-}
+const styles = {
+  container: {
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    letterSpacing: "0.25rem",
+  },
+};
 
 export const Title: React.FC<TitleProps> = ({ title }) => {
   return (
-    <div
-      style={{
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Typography
-        variant="h4"
-        color="primary"
-        sx={{ fontWeight: "bold", letterSpacing: "0.25rem" }}
-      >
+    <div style={styles.container}>
+      <Typography variant="h4" color="primary" sx={styles.title}>
         {title}
       </Typography>
     </div>

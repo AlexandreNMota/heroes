@@ -4,6 +4,32 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useHeroContext } from "../hooks/useHeroContext";
 import { useHeroCreateModal } from "../hooks/useHeroCreateModalContext";
 
+const styles = {
+  createBtn: {
+    borderRadius: "50px",
+    padding: "10px",
+  },
+  searchInput: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "50px",
+      backgroundColor: "#fff",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+    },
+    "& .Mui-focused": {
+      border: "2px solid #152d8b",
+    },
+  },
+  searchBtn: {
+    borderRadius: "50px",
+    padding: "10px",
+    backgroundColor: "#fff",
+    borderColor: "#e9e9e9",
+    color: "#0c0c0c",
+  },
+};
+
 export const FilterArea: React.FC = () => {
   const { inputSearch, setInputSearch, handleSearch, isLoading } =
     useHeroContext();
@@ -13,7 +39,7 @@ export const FilterArea: React.FC = () => {
       <Grid item xs={1} container justifyContent="flex-start">
         <Button
           variant="contained"
-          sx={{ borderRadius: "50px", padding: "10px" }}
+          sx={styles.createBtn}
           onClick={() => openModal()}
         >
           Criar
@@ -33,18 +59,7 @@ export const FilterArea: React.FC = () => {
               </InputAdornment>
             ),
           }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "50px",
-              backgroundColor: "#fff",
-            },
-            "& .MuiOutlinedInput-notchedOutline": {
-              border: "none",
-            },
-            "& .Mui-focused": {
-              border: "2px solid #152d8b",
-            },
-          }}
+          sx={styles.searchInput}
         />
       </Grid>
       <Grid item xs={1} container justifyContent="end">
@@ -52,13 +67,7 @@ export const FilterArea: React.FC = () => {
           variant="contained"
           onClick={handleSearch}
           loading={isLoading}
-          sx={{
-            borderRadius: "50px",
-            padding: "10px",
-            backgroundColor: "#fff",
-            borderColor: "#e9e9e9",
-            color: "#0c0c0c",
-          }}
+          sx={styles.searchBtn}
         >
           Buscar
         </Button>

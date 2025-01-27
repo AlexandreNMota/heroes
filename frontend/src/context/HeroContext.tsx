@@ -1,35 +1,9 @@
 import React, { createContext, ReactNode, useState } from "react";
 import { Hero } from "../@types/hero";
 import { HeroService } from "../services/HeroService";
-import { HeroResponse, useFetch } from "../hooks/useFetch";
-
-interface HeroContextProps {
-  heroes: Hero[];
-  isLoading: boolean;
-  error: string | null;
-  page: number;
-  search: string;
-  setPage: (page: number) => void;
-  setSearch: (search: string) => void;
-  handleNext: () => void;
-  handlePrevious: () => void;
-  totalPages: number;
-  totalHeroes: number;
-  currentPage: number;
-  inputSearch: string;
-  handleSearch: () => void;
-  setInputSearch: (inputSearch: string) => void;
-  handleCreateHero: (heroData: Hero) => Promise<void>;
-  handleUpdateHero: (heroData: Hero) => Promise<void>;
-  selectedHero: Hero | null;
-  setSelectedHero: (hero: Hero | null) => void;
-  handleHeroDelete: () => Promise<void>;
-  handleHeroReativate: () => Promise<void>;
-  message: string;
-  alertOpen: boolean;
-  severity: string;
-  closeAlert: () => void;
-}
+import { useFetch } from "../hooks/useFetch";
+import { HeroResponse } from "../@types/hooks/useFetch";
+import { HeroContextProps } from "../@types/context/HeroContext";
 
 const HeroContext = createContext<HeroContextProps | undefined>(undefined);
 
@@ -151,5 +125,4 @@ export const HeroProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-export type { HeroContextProps };
 export { HeroContext };

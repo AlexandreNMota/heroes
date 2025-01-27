@@ -1,5 +1,5 @@
 import { Hero } from "../@types/hero";
-import { HeroResponse } from "../hooks/useFetch";
+import { HeroResponse } from "../@types/hooks/useFetch";
 import { AxiosService } from "./AxiosService";
 
 export class HeroService extends AxiosService {

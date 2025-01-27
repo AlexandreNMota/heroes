@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { HeroContext, HeroContextProps } from "../context/HeroContext";
+import { HeroContext } from "../context/HeroContext";
+import { HeroContextProps } from "../@types/context/HeroContext";
 
 export const useHeroContext = (): HeroContextProps => {
   const context = useContext(HeroContext);

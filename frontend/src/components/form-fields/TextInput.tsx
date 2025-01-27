@@ -1,18 +1,19 @@
 import React from "react";
-import {
-  TextField,
-  Typography,
-  Grid,
-  TextFieldProps,
-  InputAdornment,
-} from "@mui/material";
+import { TextField, Typography, Grid, InputAdornment } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-interface LabeledInputProps extends Omit<TextFieldProps, "placeholder" | "sx"> {
-  label: string;
-  disabled?: boolean;
-  placeholder?: string;
-  sx?: any;
-}
+import { LabeledInputProps } from "../../@types/components/form-fields/TextInput";
+
+const styles = {
+  label: {
+    fontWeight: "bold",
+  },
+  textfield: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "50px",
+      backgroundColor: "#fff",
+    },
+  },
+};
 
 export const LabeledInput: React.FC<LabeledInputProps> = ({
   label,
@@ -34,7 +35,7 @@ export const LabeledInput: React.FC<LabeledInputProps> = ({
 
   return (
     <Grid item xs={12}>
-      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: "bold" }}>
+      <Typography variant="subtitle1" gutterBottom sx={styles.label}>
         {label}
       </Typography>
       <TextField
@@ -45,10 +46,7 @@ export const LabeledInput: React.FC<LabeledInputProps> = ({
         size="small"
         InputProps={inputProps}
         sx={{
-          "& .MuiOutlinedInput-root": {
-            borderRadius: "50px",
-            backgroundColor: "#fff",
-          },
+          ...styles.textfield,
           ...sx,
         }}
         {...textFieldProps}

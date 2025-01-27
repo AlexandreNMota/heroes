@@ -1,24 +1,7 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 import { Hero } from "../@types/hero";
 import { HeroContext } from "./HeroContext";
-
-interface HeroCreateModalContextProps {
-  open: boolean;
-  heroData: Partial<Hero>;
-  openModal: (data?: Partial<Hero>, isEdicao?: boolean) => void;
-  closeModal: () => void;
-  message: string;
-  alertOpen: boolean;
-  severity: string;
-  closeAlert: () => void;
-  handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: keyof Partial<Hero>
-  ) => void;
-  handleCreate: () => Promise<void>;
-  loading: boolean;
-  isEdit: boolean;
-}
+import { HeroCreateModalContextProps } from "../@types/context/HeroCreateModalContext";
 
 const HeroCreateModalContext = createContext<
   HeroCreateModalContextProps | undefined
@@ -70,7 +53,6 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const handleCreate = async () => {
-    console.log(heroData);
     if (
       !heroData.name ||
       !heroData.nickname ||
@@ -191,5 +173,5 @@ export const HeroCreateModalProvider: React.FC<{ children: ReactNode }> = ({
     </HeroCreateModalContext.Provider>
   );
 };
-export type { HeroCreateModalContextProps };
+
 export { HeroCreateModalContext };

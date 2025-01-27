@@ -1,18 +1,5 @@
 import { useState, useEffect } from "react";
-import { Hero } from "../@types/hero";
-
-interface FetchState<T> {
-  data: T;
-  error: string | null;
-  isLoading: boolean;
-}
-
-export interface HeroResponse {
-  heroes: Hero[];
-  totalHeroes: number;
-  totalPages: number;
-  currentPage: number;
-}
+import { FetchState } from "../@types/hooks/useFetch";
 
 export function useFetch<T>(
   fetchFunction: () => Promise<T>,

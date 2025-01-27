@@ -1,9 +1,21 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 import { HeroCard } from "./HeroCard";
 import { useHeroContext } from "../hooks/useHeroContext";
 import { Pagination } from "./Pagination";
 import { AnimatePresence, motion } from "framer-motion";
+
+const styles = {
+  noHeroes: {
+    width: "100%",
+    textAlign: "center",
+  },
+  motionDiv: {
+    width: "100%",
+    minWidth: "100%",
+  },
+};
+
 export const HeroList: React.FC = () => {
   const { heroes, page, handleNext, handlePrevious, setPage, totalPages } =
     useHeroContext();
@@ -22,7 +34,12 @@ export const HeroList: React.FC = () => {
     setAnchorEl(null);
   }, []);
 
-  if (!heroes || heroes.length <= 0) return <p>Sem heróis cadastrados</p>;
+  if (!heroes || heroes.length <= 0)
+    return (
+      <Typography variant="h6" sx={styles.noHeroes}>
+        Sem heróis cadastrados
+      </Typography>
+    );
 
   return (
     <>
@@ -35,7 +52,7 @@ export const HeroList: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                style={{ width: "100%", minWidth: "100%" }}
+                style={styles.motionDiv}
               >
                 <HeroCard
                   hero={hero}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -14,6 +14,32 @@ import { LabeledInput } from "../form-fields/TextInput";
 import { useHeroCreateModal } from "../../hooks/useHeroCreateModalContext";
 import { formatDate } from "../../utils/date";
 
+const styles = {
+  dialog: {
+    "& .MuiPaper-root": {
+      borderRadius: "25px",
+    },
+  },
+  dialogTitle: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "25px",
+  },
+  dialogContent: {
+    padding: "50px 25px",
+  },
+  dialogActions: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+  },
+  cancelBtn: {
+    borderColor: "rgba(0, 0, 0, 0.12)",
+  },
+};
+
 export const HeroCreationModal: React.FC = () => {
   const {
     open,
@@ -24,39 +50,23 @@ export const HeroCreationModal: React.FC = () => {
     loading,
     isEdit,
   } = useHeroCreateModal();
-  useEffect(() => {
-    console.log(heroData);
-    if (heroData) {
-      console.log(typeof heroData.date_of_birth, heroData.date_of_birth);
-    }
-  }, [heroData]);
+
   return (
     <Dialog
       open={open}
       onClose={closeModal}
       fullWidth
       maxWidth="sm"
-      sx={{
-        "& .MuiPaper-root": {
-          borderRadius: "25px",
-        },
-      }}
+      sx={styles.dialog}
     >
-      <DialogTitle
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "25px",
-        }}
-      >
+      <DialogTitle sx={styles.dialogTitle}>
         {isEdit ? `Editar o herói: ${heroData.nickname}` : "Criar Herói"}
         <IconButton onClick={closeModal} edge="end" aria-label="close">
           <CloseOutlinedIcon />
         </IconButton>
       </DialogTitle>
       <Divider />
-      <DialogContent sx={{ padding: "50px 25px" }}>
+      <DialogContent sx={styles.dialogContent}>
         <Grid container spacing={4}>
           {isEdit && (
             <Grid item xs={12}>
@@ -151,21 +161,12 @@ export const HeroCreationModal: React.FC = () => {
         </Grid>
       </DialogContent>
       <Divider />
-      <DialogActions
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px",
-        }}
-      >
+      <DialogActions sx={styles.dialogActions}>
         <Button
           onClick={closeModal}
           color="gray"
           variant="outlined"
-          sx={{
-            borderColor: "rgba(0, 0, 0, 0.12)",
-          }}
+          sx={styles.cancelBtn}
         >
           Cancelar
         </Button>

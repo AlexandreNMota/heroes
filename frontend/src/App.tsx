@@ -19,25 +19,29 @@ const theme = createTheme({
     },
   },
 });
+const styles = {
+  container: {
+    maxHeight: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
+    paddingTop: "50px",
+  },
+  titleContainer: {
+    display: "flex",
+  },
+};
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <HeroProvider>
         <HeroCreateModalProvider>
-          <div
-            style={{
-              maxHeight: "100%",
-              maxWidth: "100%",
-              overflow: "hidden",
-              paddingTop: "50px",
-            }}
-          >
+          <div style={styles.container}>
             <Grid container spacing={4}>
               <Grid item xs={1.5} />
               <Grid item xs={9}>
                 <Grid container spacing={5}>
-                  <Grid item xs={12} sx={{ display: "flex" }}>
+                  <Grid item xs={12} sx={styles.titleContainer}>
                     <Title title="Heróis" />
                   </Grid>
 

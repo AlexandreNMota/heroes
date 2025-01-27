@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { ConfirmModalProps } from "../../@types/components/modal/ConfirmModal";
 
 const styles = {
   dialogBox: {
@@ -32,17 +33,6 @@ const styles = {
     justifyContent: "center",
     padding: "20px",
   },
-};
-
-type ConfirmModalProps = {
-  open: boolean;
-  title: string;
-  message: string;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-  loading: boolean;
 };
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
