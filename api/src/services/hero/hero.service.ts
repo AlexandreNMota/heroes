@@ -96,7 +96,6 @@ export class HeroService extends BaseService<Hero> {
 
       return updated_hero;
     } catch (error) {
-      console.error(error);
       throw new ServiceError("ServiceError");
     }
   };

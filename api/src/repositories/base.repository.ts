@@ -21,7 +21,6 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return this.model.findAll(options);
     } catch (error) {
-      console.error("Erro ao buscar todos os registros:", error);
       throw new RepositoryError("Erro ao buscar todos os registros.");
     }
   }
@@ -30,7 +29,6 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return await this.model.findByPk(id, options);
     } catch (error) {
-      console.error(`Erro ao buscar registro com ID: ${id}`, error);
       throw new RepositoryError(`Erro ao buscar registro com ID: ${id}`);
     }
   }
@@ -39,7 +37,6 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return await this.model.findOne(options);
     } catch (error) {
-      console.error("Erro ao buscar um registro:", error);
       throw new RepositoryError("Erro ao buscar um registro.");
     }
   }
@@ -51,7 +48,6 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return await this.model.create(data, options);
     } catch (error) {
-      console.error("Erro ao criar registro:", error);
       throw new RepositoryError("Erro ao criar registro.");
     }
   }
@@ -64,7 +60,6 @@ export abstract class BaseRepository<T extends Model> {
       const [affectedCount] = await this.model.update(data, options);
       return affectedCount;
     } catch (error) {
-      console.error("Erro ao atualizar registro:", error);
       throw new RepositoryError("Erro ao atualizar registro.");
     }
   }
@@ -73,7 +68,6 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return await this.model.destroy(options);
     } catch (error) {
-      console.error("Erro ao deletar registro:", error);
       throw new RepositoryError("Erro ao deletar registro.");
     }
   }
@@ -82,7 +76,6 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return this.model.count(options);
     } catch (error) {
-      console.error("Erro ao contar os registros:", error);
       throw new RepositoryError("Erro ao contar os registros.");
     }
   }
