@@ -38,7 +38,9 @@ export class HeroService extends BaseService<Hero> {
           { nickname: { [Op.like]: `%${search.toLowerCase()}%` } },
         ];
       }
-      const totalHeroes = await this.repository.count();
+      const totalHeroes = await this.repository.count({
+        where: whereConditions,
+      });
 
       const heroes = await this.repository.findAll({
         where: whereConditions,

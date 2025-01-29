@@ -9,9 +9,10 @@ services:
     ports:
       - "3000:3000"
     command: >
-      sh -c "npm install && npm run dev"
+      sh -c "npm install && npm run test && npm run dev"
     environment:
       - NODE_ENV=development
+      - TZ=America/Sao_Paulo
     env_file:
       - .env
     depends_on:

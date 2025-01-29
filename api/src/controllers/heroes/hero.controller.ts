@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HeroService } from "../../services/hero/hero.service";
 
-class HeroController {
+export class HeroController {
   private heroService: HeroService;
 
   constructor() {
@@ -26,7 +26,6 @@ class HeroController {
         currentPage: page,
       });
     } catch (error) {
-      console.error(error);
       return res
         .status(500)
         .json({ message: "Erro ao carregar heroes", error });
@@ -35,10 +34,9 @@ class HeroController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const created_heroe = await this.heroService.create(req.body);
-      return res.status(201).json(created_heroe);
+      const created_hero = await this.heroService.create(req.body);
+      return res.status(201).json(created_hero);
     } catch (error) {
-      console.error(error);
       return res.status(500).json({ message: "Erro ao criar herói", error });
     }
   };
@@ -55,7 +53,6 @@ class HeroController {
 
       return res.status(200).json(updated_hero);
     } catch (error) {
-      console.error(error);
       return res
         .status(500)
         .json({ message: "Erro ao atualizar herói", error });
@@ -73,10 +70,7 @@ class HeroController {
 
       return res.status(200).json(updated_hero);
     } catch (error) {
-      console.error(error);
       return res.status(500).json({ message: "Erro ao deletar herói", error });
     }
   };
 }
-
-export const heroController = new HeroController();
