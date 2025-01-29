@@ -19,7 +19,7 @@ export abstract class BaseService<T extends Model> {
 
   async findAll(options?: FindOptions): Promise<T[]> {
     try {
-      return this.repository.findAll(options);
+      return await this.repository.findAll(options);
     } catch (error) {
       console.error(`Erro ao buscar todos os registros:`, error);
       throw new ServiceError(`Erro ao buscar todos os registros.`);
@@ -28,7 +28,7 @@ export abstract class BaseService<T extends Model> {
 
   async findById(id: string, options?: FindOptions): Promise<T | null> {
     try {
-      return this.repository.findById(id, options);
+      return await this.repository.findById(id, options);
     } catch (error) {
       console.error(`Erro ao buscar registro com ID: ${id}`, error);
       throw new ServiceError(`Erro ao buscar registro com ID: ${id}`);
@@ -37,7 +37,7 @@ export abstract class BaseService<T extends Model> {
 
   async findOne(options?: FindOptions): Promise<T | null> {
     try {
-      return this.repository.findOne(options);
+      return await this.repository.findOne(options);
     } catch (error) {
       console.error("Erro ao buscar um registro:", error);
       throw new ServiceError("Erro ao buscar um registro.");
@@ -49,7 +49,7 @@ export abstract class BaseService<T extends Model> {
     options?: CreateOptions
   ): Promise<T> {
     try {
-      return this.repository.create(data, options);
+      return await this.repository.create(data, options);
     } catch (error) {
       console.error("Erro ao criar registro:", error);
       throw new ServiceError("Erro ao criar registro.");
@@ -61,7 +61,7 @@ export abstract class BaseService<T extends Model> {
     options: UpdateOptions
   ): Promise<number> {
     try {
-      return this.repository.update(data, options);
+      return await this.repository.update(data, options);
     } catch (error) {
       console.error("Erro ao atualizar registro:", error);
       throw new ServiceError("Erro ao atualizar registro.");
@@ -70,7 +70,7 @@ export abstract class BaseService<T extends Model> {
 
   async delete(options: DestroyOptions): Promise<number> {
     try {
-      return this.repository.delete(options);
+      return await this.repository.delete(options);
     } catch (error) {
       console.error("Erro ao deletar registro:", error);
       throw new ServiceError("Erro ao deletar registro.");

@@ -3,13 +3,16 @@ import { Hero } from "../../models";
 import { HeroRepository } from "../../repositories/hero/hero.repository";
 import { BaseService } from "../base.service";
 import { HeroAttributes } from "../../entities/hero.entity";
+import { ServiceError } from "../../utils/base-service-error";
 
 export class HeroService extends BaseService<Hero> {
+  private heroRepository: HeroRepository;
   private static heroRepositoryInstance: HeroRepository;
-
-  constructor() {
-    super(HeroService.getHeroRepository());
+  constructor(heroRepository?: HeroRepository) {
+    super(heroRepository || HeroService.getHeroRepository());
+    this.heroRepository = heroRepository || HeroService.getHeroRepository();
   }
+
   private static getHeroRepository(): HeroRepository {
     try {
       if (!HeroService.heroRepositoryInstance) {
@@ -38,11 +41,12 @@ export class HeroService extends BaseService<Hero> {
           { nickname: { [Op.like]: `%${search.toLowerCase()}%` } },
         ];
       }
-      const totalHeroes = await this.repository.count({
+
+      const totalHeroes = await this.heroRepository.count({
         where: whereConditions,
       });
 
-      const heroes = await this.repository.findAll({
+      const heroes = await this.heroRepository.findAll({
         where: whereConditions,
         order: [["created_at", "DESC"]],
         limit,
@@ -57,8 +61,7 @@ export class HeroService extends BaseService<Hero> {
         totalHeroes,
       };
     } catch (error) {
-      console.error("Erro no serviço ao buscar heróis:", error);
-      throw new Error("ServiceError");
+      throw new ServiceError("Erro ao buscar todos os registros.");
     }
   };
 
@@ -68,17 +71,22 @@ export class HeroService extends BaseService<Hero> {
     id: string
   ): Promise<Hero> => {
     try {
-      const hero = await this.repository.findById(id);
+      const hero = await this.heroRepository.findById(id);
       if (!hero) {
-        throw new Error("Herói não encontrado.");
+        throw new ServiceError("Herói não encontrado.");
       }
 
-      const updated_records = await this.repository.update(payload, options);
+      const updated_records = await this.heroRepository.update(
+        payload,
+        options
+      );
       if (updated_records === 0) {
-        throw new Error("Nenhum herói encontrado ou alterações não feitas.");
+        throw new ServiceError(
+          "Nenhum herói encontrado ou alterações não feitas."
+        );
       }
 
-      const updated_hero = await this.repository.findById(id);
+      const updated_hero = await this.heroRepository.findById(id);
 
       if (!updated_hero) {
         throw new Error(
@@ -88,8 +96,8 @@ export class HeroService extends BaseService<Hero> {
 
       return updated_hero;
     } catch (error) {
-      console.error("Erro no serviço de atualização de herói:", error);
-      throw new Error("ServiceError");
+      console.error(error);
+      throw new ServiceError("ServiceError");
     }
   };
 }
