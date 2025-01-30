@@ -2,6 +2,8 @@
 
 Este projeto consiste em um **sistema de gerenciamento de heróis** e faz parte da terceira etapa do processo seletivo. O backend foi desenvolvido com **Node.js** e o banco de dados MySQL é instanciado por meio do Docker. O frontend, por sua vez, foi construído com **React**. O objetivo deste projeto é permitir o cadastro e a visualização de heróis, com funcionalidades como CRUD (Create, Read, Update, Delete).
 
+![Descrição da imagem](https://i.imgur.com/xXwvpip.png)
+
 ## Estrutura do Projeto
 
 A estrutura do projeto é dividida em três componentes principais:
@@ -12,8 +14,8 @@ A estrutura do projeto é dividida em três componentes principais:
 
 ## Tecnologias Usadas
 
-- **Backend**: Node.js, Express, Sequelize
-- **Frontend**: React.js
+- **Backend**: Node.js, Express, Sequelize, Typescript
+- **Frontend**: React.js, Typescript
 - **Banco de Dados**: MySQL (mysql:8.0)
 - **Docker**: Para orquestrar o ambiente e os containers (Docker version 27.4.0, build bde2b89)
 
@@ -54,6 +56,9 @@ Este comando irá:
 - Iniciar a API no backend e a aplicação React no frontend.
 - Iniciar o serviço do banco de dados MySQL no container.
 - O Sequelize vai automaticamente criar a tabela no banco de dados e rodar um **seed** de registros iniciais para popular a tabela com dados de exemplo.
+- **Antes de iniciar a API**, os testes do backend são executados. Se algum teste falhar, a API não será iniciada.
+
+> **Observação**: Em alguns casos, o Docker pode subir as imagens na ordem errada. Como há dependências entre os containers, isso pode causar erros na inicialização do projeto. Se isso ocorrer, basta rodar o comando `docker-compose down` seguido de `docker-compose up` novamente para que os containers sejam iniciados na ordem correta.
 
 #### 4. Acesse a aplicação
 
